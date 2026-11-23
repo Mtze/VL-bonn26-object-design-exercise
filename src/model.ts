@@ -20,9 +20,7 @@ export interface Studierende {
 
 // Entity Mitgliedschaft: verbindet eine Gruppe mit einer Person.
 export interface Mitgliedschaft {
-  // TODO: Ein Feld id für die Mitgliedschaft selbst ergänzen (Typ string).
-
-  // TODO: Über die ID auf die Gruppe verweisen (Typ GruppenId).
-
-  // TODO: Über die ID auf die Person verweisen (Typ StudiId).
+  id: string
+  gruppeId: GruppenId
+  studiId: StudiId
 }
