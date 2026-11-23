@@ -1,6 +1,14 @@
 # UniConnect: Gruppen-Subsystem
 
-Dieses Projekt setzt das Gruppen-Subsystem von UniConnect in TypeScript um. Gruppen lassen sich bereits anlegen, anzeigen und löschen. Mitgliedschaften fehlen noch: Niemand kann einer Gruppe beitreten.
+Übungsprojekt zur Gastvorlesung „Object Design II“ in Softwaretechnologie, Universität Bonn. Das Projekt setzt das Gruppen-Subsystem von UniConnect in TypeScript um. Gruppen lassen sich bereits anlegen, anzeigen und löschen. Mitgliedschaften fehlen noch: Niemand kann einer Gruppe beitreten.
+
+> **Musterlösung zum Refactoring** (Branch `solution-refactoring`), aufbauend auf `solution`:
+>
+> 1. **Refactoring:** `GruppenFassade` steht vor beiden Services. `src/index.ts` exportiert nur noch die Fassade.
+> 2. **Information Hiding:** Die Fassade gibt nur DTOs heraus (`src/dto.ts`). Die Matrikelnummer verlässt das Subsystem nicht.
+> 3. **Verhaltensänderung:** Die Fassade prüft vor jedem Zugriff die Mitgliedschaft der handelnden Person.
+>
+> Alle 20 Tests sind grün. Unterschied zur Lösung von E1: `git diff solution solution-refactoring`.
 
 ## Ausführen
 
@@ -11,7 +19,9 @@ npm test
 npm start
 ```
 
-`npm test` führt die Tests aus, `npm start` ein kleines Beispielprogramm (`src/main.ts`). Beides läuft ohne Installation. Für die Typprüfung installieren Sie einmalig die Entwicklungswerkzeuge:
+`npm test` führt die Tests aus, `npm start` ein kleines Beispielprogramm (`src/main.ts`). Beides läuft ohne Installation.
+
+Zu Beginn sind 5 Tests grün und 7 rot, und `npm start` bricht mit „TODO: beitreten implementieren“ ab. Ziel von E1: Alle Tests sind grün, und `npm start` zeigt die Mitglieder der Beispielgruppe. Für die Typprüfung installieren Sie einmalig die Entwicklungswerkzeuge:
 
 ```sh
 npm install
@@ -30,6 +40,8 @@ npm run typecheck
 | `src/tabelle.ts` | Einfacher Speicher im Arbeitsspeicher |
 | `src/index.ts` | Öffentliche Schnittstelle des Subsystems |
 | `src/main.ts` | Kleines Beispielprogramm für `npm start` |
+| `src/gruppen-fassade.ts` | `GruppenFassade`: einziger Zugang von außen, prüft die Mitgliedschaft |
+| `src/dto.ts` | DTOs `GruppeDto` und `MitgliedDto` |
 | `test/` | Tests für beide Services |
 
 ## E1: Mitgliedschaften umsetzen
