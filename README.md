@@ -1,6 +1,6 @@
 # UniConnect: Gruppen-Subsystem
 
-Dieses Projekt setzt das Gruppen-Subsystem von UniConnect in TypeScript um. Gruppen lassen sich bereits anlegen, anzeigen und löschen. Mitgliedschaften fehlen noch: Niemand kann einer Gruppe beitreten.
+Übungsprojekt zur Gastvorlesung „Object Design II“ in Softwaretechnologie, Universität Bonn. Das Projekt setzt das Gruppen-Subsystem von UniConnect in TypeScript um. Gruppen lassen sich bereits anlegen, anzeigen und löschen. Mitgliedschaften fehlen noch: Niemand kann einer Gruppe beitreten.
 
 ## Ausführen
 
@@ -11,7 +11,9 @@ npm test
 npm start
 ```
 
-`npm test` führt die Tests aus, `npm start` ein kleines Beispielprogramm (`src/main.ts`). Beides läuft ohne Installation. Für die Typprüfung installieren Sie einmalig die Entwicklungswerkzeuge:
+`npm test` führt die Tests aus, `npm start` ein kleines Beispielprogramm (`src/main.ts`). Beides läuft ohne Installation.
+
+Zu Beginn sind 5 Tests grün und 7 rot, und `npm start` bricht mit „TODO: beitreten implementieren“ ab. Ziel von E1: Alle Tests sind grün, und `npm start` zeigt die Mitglieder der Beispielgruppe. Für die Typprüfung installieren Sie einmalig die Entwicklungswerkzeuge:
 
 ```sh
 npm install
