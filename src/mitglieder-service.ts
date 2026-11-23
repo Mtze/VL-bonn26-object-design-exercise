@@ -40,6 +40,10 @@ export class MitgliederService {
       .filter(s => s !== undefined)
   }
 
+  istMitglied(gruppeId: GruppenId, studiId: StudiId): boolean {
+    return this.mitgliedschaft(gruppeId, studiId) !== undefined
+  }
+
   private mitgliedschaft(gruppeId: GruppenId, studiId: StudiId): Mitgliedschaft | undefined {
     return this.mitgliedschaften.alle().find(m => m.gruppeId === gruppeId && m.studiId === studiId)
   }

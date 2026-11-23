@@ -1,6 +1,21 @@
 // Öffentliche Schnittstelle des Gruppen-Subsystems.
-// Andere Subsysteme importieren nur, was hier exportiert wird.
-export { GruppenService } from './gruppen-service.ts'
-export { MitgliederService } from './mitglieder-service.ts'
-export { Tabelle } from './tabelle.ts'
-export * from './model.ts'
+// Nach dem Refactoring ist nur noch die Fassade erreichbar.
+// GruppenService und MitgliederService werden nicht mehr exportiert.
+import { GruppenFassade } from './gruppen-fassade.ts'
+import { GruppenService } from './gruppen-service.ts'
+import { MitgliederService } from './mitglieder-service.ts'
+import { Tabelle } from './tabelle.ts'
+import type { Gruppe, Studierende } from './model.ts'
+
+export function gruppenSubsystemErstellen(studierende: Studierende[]): GruppenFassade {
+  const gruppen = new Tabelle<Gruppe>()
+  return new GruppenFassade(
+    new GruppenService(gruppen),
+    new MitgliederService(gruppen, new Tabelle(studierende)),
+  )
+}
+
+// Entities wie Gruppe oder Studierende werden nicht exportiert, nur DTOs.
+export type { GruppenFassade } from './gruppen-fassade.ts'
+export type { GruppeDto, MitgliedDto } from './dto.ts'
+export type { GruppenId, StudiId } from './model.ts'
