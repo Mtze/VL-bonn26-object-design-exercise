@@ -28,6 +28,8 @@ npm install
 npm run typecheck
 ```
 
+In EduIDE und VS Code stehen dieselben Befehle als Tasks bereit (`.vscode/tasks.json`): Menü „Terminal“, dann „Run Task…“, zum Beispiel „Tests ausführen“ oder „Programm starten“.
+
 **Wichtig:** Nur Änderungen, die Sie committen und in Ihr GitLab-Repository pushen, bleiben erhalten.
 
 ## Aufbau
