@@ -13,9 +13,9 @@ export interface MitgliedDto {
   name: string
 }
 
-// Eingabe von außen: die Personen, die das Subsystem kennen soll.
+// Eingabe von außen: die Studierenden, die das Subsystem kennen soll.
 // Das Subsystem kopiert sie in eigene Entities, der Aufrufer behält keinen Zugriff darauf.
-export interface PersonDto {
+export interface StudierendeDto {
   id: StudiId
   name: string
   matrikelnummer: string
