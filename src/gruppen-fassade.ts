@@ -20,7 +20,7 @@ export class GruppenFassade {
   anlegen(akteur: StudiId, name: string, beschreibung: string): GruppeDto {
     const gruppe = this.gruppen.anlegen(name, beschreibung)
     try {
-      this.mitglieder.beitreten(gruppe.id, akteur)
+      this.mitglieder.beitreten(akteur, gruppe.id)
     } catch (fehler) {
       // Keine Gruppe ohne Mitglied zurücklassen.
       this.gruppen.loeschen(gruppe.id)
@@ -38,18 +38,16 @@ export class GruppenFassade {
   // blieben verwaiste Mitgliedschaften einer gelöschten Gruppe zurück.
   loeschen(akteur: StudiId, gruppeId: GruppenId): void {
     this.mitgliedschaftPruefen(akteur, gruppeId)
-    for (const mitglied of this.mitglieder.anzeigen(gruppeId)) {
-      this.mitglieder.verlassen(gruppeId, mitglied.id)
-    }
+    this.mitglieder.alleEntfernen(gruppeId)
     this.gruppen.loeschen(gruppeId)
   }
 
   beitreten(akteur: StudiId, gruppeId: GruppenId): void {
-    this.mitglieder.beitreten(gruppeId, akteur)
+    this.mitglieder.beitreten(akteur, gruppeId)
   }
 
   verlassen(akteur: StudiId, gruppeId: GruppenId): void {
-    this.mitglieder.verlassen(gruppeId, akteur)
+    this.mitglieder.verlassen(akteur, gruppeId)
   }
 
   mitgliederAnzeigen(akteur: StudiId, gruppeId: GruppenId): MitgliedDto[] {
@@ -65,7 +63,7 @@ export class GruppenFassade {
   // Unbekannte und fremde Gruppen ergeben denselben Fehler.
   // So verrät die Antwort nicht, ob eine Gruppe existiert.
   private mitgliedschaftPruefen(akteur: StudiId, gruppeId: GruppenId): void {
-    if (!this.mitglieder.istMitglied(gruppeId, akteur)) {
+    if (!this.mitglieder.istMitglied(akteur, gruppeId)) {
       throw new Error('Kein Zugriff auf diese Gruppe.')
     }
   }

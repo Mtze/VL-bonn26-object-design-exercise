@@ -1,32 +1,37 @@
 // Kleines Programm zum Ausprobieren: npm start
-// Es legt eine Gruppe an, lässt zwei Personen beitreten und eine wieder austreten.
-import { GruppenService } from './gruppen-service.ts'
-import { MitgliederService } from './mitglieder-service.ts'
-import { Tabelle } from './tabelle.ts'
-import type { Gruppe, Studierende } from './model.ts'
+// Es nutzt nur die öffentliche Schnittstelle aus index.ts, also die Fassade.
+import { gruppenSubsystemErstellen } from './index.ts'
+import type { MitgliedDto } from './index.ts'
 
-const gruppenTabelle = new Tabelle<Gruppe>()
-const studierende = new Tabelle<Studierende>([
-  { id: 'anna', name: 'Anna', matrikelnummer: '3012345' },
-  { id: 'ben', name: 'Ben', matrikelnummer: '3012346' },
+// Feste UUIDs für die beiden Beispielpersonen.
+const annaId = '11111111-1111-4111-8111-111111111111'
+const benId = '22222222-2222-4222-8222-222222222222'
+
+const fassade = gruppenSubsystemErstellen([
+  { id: annaId, name: 'Anna', matrikelnummer: '3012345' },
+  { id: benId, name: 'Ben', matrikelnummer: '3012346' },
 ])
-const gruppen = new GruppenService(gruppenTabelle)
-const mitglieder = new MitgliederService(gruppenTabelle, studierende)
 
-const namen = (liste: Studierende[]) => liste.map(s => s.name).join(', ') || '(keine)'
+const namen = (liste: MitgliedDto[]) => liste.map(m => m.name).join(', ') || '(keine)'
 
 try {
-  const gruppe = gruppen.anlegen('Algorithmenrunde', 'Gemeinsam für die Klausur lernen')
+  // Anna legt die Gruppe an und ist damit ihr erstes Mitglied.
+  const gruppe = fassade.anlegen(annaId, 'Algorithmenrunde', 'Gemeinsam für die Klausur lernen')
   console.log(`Gruppe angelegt: ${gruppe.name}`)
 
-  mitglieder.beitreten(gruppe.id, 'anna')
-  mitglieder.beitreten(gruppe.id, 'ben')
-  console.log(`Mitglieder: ${namen(mitglieder.anzeigen(gruppe.id))}`)
+  fassade.beitreten(benId, gruppe.id)
+  console.log(`Mitglieder: ${namen(fassade.mitgliederAnzeigen(annaId, gruppe.id))}`)
 
-  mitglieder.verlassen(gruppe.id, 'ben')
-  console.log(`Nach dem Austritt von Ben: ${namen(mitglieder.anzeigen(gruppe.id))}`)
+  fassade.verlassen(benId, gruppe.id)
+  console.log(`Nach dem Austritt von Ben: ${namen(fassade.mitgliederAnzeigen(annaId, gruppe.id))}`)
+
+  // Ben ist kein Mitglied mehr und sieht die Gruppe deshalb nicht.
+  try {
+    fassade.anzeigen(benId, gruppe.id)
+  } catch (fehler) {
+    console.log(`Ben fragt die Gruppe an: ${fehler instanceof Error ? fehler.message : String(fehler)}`)
+  }
 } catch (fehler) {
-  // Solange E1 offen ist, endet das Programm hier mit der TODO-Meldung.
   console.error(`Abbruch: ${fehler instanceof Error ? fehler.message : String(fehler)}`)
   process.exitCode = 1
 }

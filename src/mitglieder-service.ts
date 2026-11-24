@@ -15,18 +15,18 @@ export class MitgliederService {
   }
 
   // Studierende treten einer Gruppe bei. Ein erneuter Beitritt ändert nichts.
-  beitreten(gruppeId: GruppenId, studiId: StudiId): void {
+  beitreten(studiId: StudiId, gruppeId: GruppenId): void {
     this.gruppePruefen(gruppeId)
     if (!this.studierende.finden(studiId)) {
       throw new Error('Person nicht gefunden.')
     }
-    if (this.mitgliedschaft(gruppeId, studiId)) return
+    if (this.mitgliedschaft(studiId, gruppeId)) return
     this.mitgliedschaften.speichern({ id: randomUUID(), gruppeId, studiId })
   }
 
   // Studierende verlassen eine Gruppe. Ohne Mitgliedschaft passiert nichts.
-  verlassen(gruppeId: GruppenId, studiId: StudiId): void {
-    const mitgliedschaft = this.mitgliedschaft(gruppeId, studiId)
+  verlassen(studiId: StudiId, gruppeId: GruppenId): void {
+    const mitgliedschaft = this.mitgliedschaft(studiId, gruppeId)
     if (mitgliedschaft) this.mitgliedschaften.entfernen(mitgliedschaft.id)
   }
 
@@ -40,11 +40,18 @@ export class MitgliederService {
       .filter(s => s !== undefined)
   }
 
-  istMitglied(gruppeId: GruppenId, studiId: StudiId): boolean {
-    return this.mitgliedschaft(gruppeId, studiId) !== undefined
+  istMitglied(studiId: StudiId, gruppeId: GruppenId): boolean {
+    return this.mitgliedschaft(studiId, gruppeId) !== undefined
   }
 
-  private mitgliedschaft(gruppeId: GruppenId, studiId: StudiId): Mitgliedschaft | undefined {
+  // Entfernt alle Mitgliedschaften einer Gruppe, zum Beispiel bevor die Gruppe gelöscht wird.
+  alleEntfernen(gruppeId: GruppenId): void {
+    for (const mitgliedschaft of this.mitgliedschaften.alle()) {
+      if (mitgliedschaft.gruppeId === gruppeId) this.mitgliedschaften.entfernen(mitgliedschaft.id)
+    }
+  }
+
+  private mitgliedschaft(studiId: StudiId, gruppeId: GruppenId): Mitgliedschaft | undefined {
     return this.mitgliedschaften.alle().find(m => m.gruppeId === gruppeId && m.studiId === studiId)
   }
 

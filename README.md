@@ -5,10 +5,10 @@
 > **Musterlösung zum Refactoring** (Branch `solution-refactoring`), aufbauend auf `solution`:
 >
 > 1. **Refactoring:** `GruppenFassade` steht vor beiden Services. `src/index.ts` exportiert nur noch die Fassade.
-> 2. **Information Hiding:** Die Fassade gibt nur DTOs heraus (`src/dto.ts`). Die Matrikelnummer verlässt das Subsystem nicht.
+> 2. **Information Hiding:** Die Fassade gibt nur DTOs heraus (`src/dto.ts`). Die Matrikelnummer verlässt das Subsystem nicht. Auch die Eingabe ist ein DTO: `gruppenSubsystemErstellen` nimmt `PersonDto` entgegen und kopiert die Daten in eigene Entities.
 > 3. **Verhaltensänderung:** Die Fassade prüft vor jedem Zugriff die Mitgliedschaft der handelnden Person.
 >
-> Alle 20 Tests sind grün. Unterschied zur Lösung von E1: `git diff solution solution-refactoring`.
+> Beim Löschen entfernt `MitgliederService.alleEntfernen` die Mitgliedschaften der Gruppe. `npm start` nutzt nur noch die Fassade. Alle 20 Tests sind grün. Unterschied zur Lösung von E1: `git diff solution solution-refactoring`.
 
 ## Ausführen
 
@@ -43,8 +43,8 @@ In EduIDE und VS Code stehen dieselben Befehle als Tasks bereit (`.vscode/tasks.
 | `src/index.ts` | Öffentliche Schnittstelle des Subsystems |
 | `src/main.ts` | Kleines Beispielprogramm für `npm start` |
 | `src/gruppen-fassade.ts` | `GruppenFassade`: einziger Zugang von außen, prüft die Mitgliedschaft |
-| `src/dto.ts` | DTOs `GruppeDto` und `MitgliedDto` |
-| `test/` | Tests für beide Services |
+| `src/dto.ts` | DTOs `GruppeDto` und `MitgliedDto` (Ausgabe) sowie `PersonDto` (Eingabe) |
+| `test/` | Tests für beide Services, gemeinsame Testdaten mit festen UUIDs in `test/testdaten.ts` |
 
 ## E1: Mitgliedschaften umsetzen
 
