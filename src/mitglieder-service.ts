@@ -19,7 +19,7 @@ export class MitgliederService {
   }
 
   // Studierende treten einer Gruppe bei. Ein erneuter Beitritt ändert nichts.
-  beitreten(gruppeId: GruppenId, studiId: StudiId): void {
+  beitreten(studiId: StudiId, gruppeId: GruppenId): void {
     // TODO: Prüfen, ob es die Gruppe gibt.
     // Wenn nicht: throw new Error('Gruppe nicht gefunden.')
 
@@ -36,7 +36,7 @@ export class MitgliederService {
   }
 
   // Studierende verlassen eine Gruppe. Ohne Mitgliedschaft passiert nichts.
-  verlassen(gruppeId: GruppenId, studiId: StudiId): void {
+  verlassen(studiId: StudiId, gruppeId: GruppenId): void {
     // TODO: Die Mitgliedschaft dieser Person in dieser Gruppe suchen.
 
     // TODO: Gibt es eine, sie aus der Tabelle entfernen. Gibt es keine, nichts tun.

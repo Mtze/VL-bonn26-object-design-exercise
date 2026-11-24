@@ -6,9 +6,7 @@ import { GruppenService } from '../src/gruppen-service.ts'
 import { MitgliederService } from '../src/mitglieder-service.ts'
 import { Tabelle } from '../src/tabelle.ts'
 import type { Gruppe, Studierende } from '../src/model.ts'
-
-const anna: Studierende = { id: 'anna', name: 'Anna', matrikelnummer: '3012345' }
-const ben: Studierende = { id: 'ben', name: 'Ben', matrikelnummer: '3012346' }
+import { anna, ben, annaId, benId, unbekannteGruppeId, unbekanntePersonId } from './testdaten.ts'
 
 function aufbauen() {
   const gruppenTabelle = new Tabelle<Gruppe>()
@@ -29,42 +27,42 @@ test('eine neue Gruppe hat keine Mitglieder', () => {
 
 test('nach dem Beitritt erscheint die Person in der Mitgliederliste', () => {
   const { mitglieder, gruppe } = aufbauen()
-  mitglieder.beitreten(gruppe.id, 'anna')
-  mitglieder.beitreten(gruppe.id, 'ben')
+  mitglieder.beitreten(annaId, gruppe.id)
+  mitglieder.beitreten(benId, gruppe.id)
   assert.deepEqual(namen(mitglieder.anzeigen(gruppe.id)), ['Anna', 'Ben'])
 })
 
 test('ein erneuter Beitritt erzeugt keine doppelte Mitgliedschaft', () => {
   const { mitglieder, gruppe } = aufbauen()
-  mitglieder.beitreten(gruppe.id, 'anna')
-  mitglieder.beitreten(gruppe.id, 'anna')
+  mitglieder.beitreten(annaId, gruppe.id)
+  mitglieder.beitreten(annaId, gruppe.id)
   assert.deepEqual(namen(mitglieder.anzeigen(gruppe.id)), ['Anna'])
 })
 
 test('nach dem Verlassen ist die Person kein Mitglied mehr', () => {
   const { mitglieder, gruppe } = aufbauen()
-  mitglieder.beitreten(gruppe.id, 'anna')
-  mitglieder.beitreten(gruppe.id, 'ben')
-  mitglieder.verlassen(gruppe.id, 'anna')
+  mitglieder.beitreten(annaId, gruppe.id)
+  mitglieder.beitreten(benId, gruppe.id)
+  mitglieder.verlassen(annaId, gruppe.id)
   assert.deepEqual(namen(mitglieder.anzeigen(gruppe.id)), ['Ben'])
 })
 
 test('verlassen ohne Mitgliedschaft ändert nichts', () => {
   const { mitglieder, gruppe } = aufbauen()
-  mitglieder.verlassen(gruppe.id, 'anna')
+  mitglieder.verlassen(annaId, gruppe.id)
   assert.deepEqual(mitglieder.anzeigen(gruppe.id), [])
 })
 
 test('Mitgliedschaften gelten nur für ihre eigene Gruppe', () => {
   const { gruppen, mitglieder, gruppe } = aufbauen()
   const andere = gruppen.anlegen('Datenbanken', '')
-  mitglieder.beitreten(gruppe.id, 'anna')
+  mitglieder.beitreten(annaId, gruppe.id)
   assert.deepEqual(mitglieder.anzeigen(andere.id), [])
 })
 
 test('unbekannte Gruppen und Personen werden abgewiesen', () => {
   const { mitglieder, gruppe } = aufbauen()
-  assert.throws(() => mitglieder.beitreten('gibt-es-nicht', 'anna'), /nicht gefunden/)
-  assert.throws(() => mitglieder.beitreten(gruppe.id, 'unbekannt'), /nicht gefunden/)
-  assert.throws(() => mitglieder.anzeigen('gibt-es-nicht'), /nicht gefunden/)
+  assert.throws(() => mitglieder.beitreten(annaId, unbekannteGruppeId), /nicht gefunden/)
+  assert.throws(() => mitglieder.beitreten(unbekanntePersonId, gruppe.id), /nicht gefunden/)
+  assert.throws(() => mitglieder.anzeigen(unbekannteGruppeId), /nicht gefunden/)
 })

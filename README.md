@@ -34,7 +34,7 @@ In EduIDE und VS Code stehen dieselben Befehle als Tasks bereit (`.vscode/tasks.
 | `src/tabelle.ts` | Einfacher Speicher im Arbeitsspeicher |
 | `src/index.ts` | Öffentliche Schnittstelle des Subsystems |
 | `src/main.ts` | Kleines Beispielprogramm für `npm start` |
-| `test/` | Tests für beide Services |
+| `test/` | Tests für beide Services, gemeinsame Testdaten mit festen UUIDs in `test/testdaten.ts` |
 
 ## E1: Mitgliedschaften umsetzen
 
