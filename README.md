@@ -1,5 +1,7 @@
 # UniConnect: Gruppen-Subsystem
 
+[![Open in EduIDE](https://eduide.github.io/Docs/img/open-in-eduide.svg)](https://bonn.eduide.aet.cit.tum.de/?appDef=javascript-standalone&gitUri=https%3A%2F%2Fgithub.com%2Fdigital-medicine%2Fvl-softwaretechnologie-2627-uniconnect&title=Object+Design)
+
 Übungsprojekt zur Gastvorlesung „Object Design II“ in Softwaretechnologie, Universität Bonn. Das Projekt setzt das Gruppen-Subsystem von UniConnect in TypeScript um. Gruppen lassen sich bereits anlegen, anzeigen und löschen. Mitgliedschaften fehlen noch: Niemand kann einer Gruppe beitreten.
 
 > **Musterlösung zum Refactoring** (Branch `solution-refactoring`), aufbauend auf `solution`:
@@ -9,6 +11,12 @@
 > 3. **Verhaltensänderung:** Die Fassade prüft vor jedem Zugriff die Mitgliedschaft der handelnden Person.
 >
 > Beim Löschen entfernt `MitgliederService.alleEntfernen` die Mitgliedschaften der Gruppe. `npm start` nutzt nur noch die Fassade. Alle 20 Tests sind grün. Unterschied zur Lösung von E1: `git diff solution solution-refactoring`.
+
+## In EduIDE starten
+
+1. [bonn.eduide.aet.cit.tum.de](https://bonn.eduide.aet.cit.tum.de/) öffnen und anmelden. Auf Ihrem Zettel steht nur der Benutzername, zum Beispiel `user`. Melden Sie sich mit `user@eduide.org` und dem Passwort vom Zettel an.
+2. Oben auf „Open in EduIDE“ klicken. EduIDE öffnet das Projekt direkt.
+3. Im Terminal `npm test` ausführen.
 
 ## Ausführen
 
@@ -29,8 +37,6 @@ npm run typecheck
 ```
 
 In EduIDE und VS Code stehen dieselben Befehle als Tasks bereit (`.vscode/tasks.json`): Menü „Terminal“, dann „Run Task…“, zum Beispiel „Tests ausführen“ oder „Programm starten“.
-
-**Wichtig:** Nur Änderungen, die Sie committen und in Ihr GitLab-Repository pushen, bleiben erhalten.
 
 ## Aufbau
 
@@ -62,7 +68,7 @@ Jede Stelle, an der Sie etwas ergänzen, ist im Code mit `// TODO:` und dem Auft
 
 **Tipp:** `Tabelle<T>` in `src/tabelle.ts` bietet schon `speichern`, `finden`, `alle` und `entfernen`. Schauen Sie dort hinein, bevor Sie selbst etwas bauen.
 
-**Ergebnis:** Ihre Änderungen an `src/model.ts` und `src/mitglieder-service.ts`, committet und gepusht.
+**Ergebnis:** Ihre Änderungen an `src/model.ts` und `src/mitglieder-service.ts`, alle Tests grün.
 
 ## Syntaxhilfe TypeScript
 
