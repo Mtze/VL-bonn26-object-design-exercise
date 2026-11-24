@@ -3,6 +3,7 @@ import assert from 'node:assert/strict'
 import { GruppenService } from '../src/gruppen-service.ts'
 import { Tabelle } from '../src/tabelle.ts'
 import type { Gruppe } from '../src/model.ts'
+import { unbekannteGruppeId } from './testdaten.ts'
 
 function neuerService(): GruppenService {
   return new GruppenService(new Tabelle<Gruppe>())
@@ -25,7 +26,7 @@ test('jede Gruppe erhält eine eigene id', () => {
 })
 
 test('anzeigen einer unbekannten Gruppe meldet einen Fehler', () => {
-  assert.throws(() => neuerService().anzeigen('gibt-es-nicht'), /nicht gefunden/)
+  assert.throws(() => neuerService().anzeigen(unbekannteGruppeId), /nicht gefunden/)
 })
 
 test('loeschen entfernt die Gruppe', () => {
